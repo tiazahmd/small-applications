@@ -1,4 +1,4 @@
-# UniquePasswordGenerator
+# Unique Password Generator
 ### Generates unique password according to user character requirement and adheres to certain laws
 
 #### Requirements
