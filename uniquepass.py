@@ -1,21 +1,15 @@
 import random
 
 def passGen(count):
-    chars = [['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-              'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
-             ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
-             ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-             ['!', '@', '#', '$', '%', '&', '?']]
 
     genPass = []
 
     # Generating the first 4 mandatory random characters
 
-    genPass.extend(chars[0][random.randint(0,25)])
-    genPass.extend(chars[1][random.randint(0,25)])
-    genPass.extend(chars[2][random.randint(0,9)])
-    genPass.extend(chars[3][random.randint(0,6)])
+    genPass.extend(chr(random.randint(65, 90))) # Generating chars from A-Z
+    genPass.extend(chr(random.randint(97, 122))) # Generating chars from a-z
+    genPass.extend(chr(random.randint(48, 57))) # Generating numbers from 0-9
+    genPass.extend(chr(random.randint(33, 47))) # Generating special chars
 
     remCount = count - 4
 
@@ -24,12 +18,14 @@ def passGen(count):
     for i in range(0, remCount):
         randomNumber = random.randint(0,3)
 
-        if randomNumber == 0 or randomNumber == 1:
-            genPass.extend(chars[randomNumber][random.randint(0,25)])
+        if randomNumber == 0:
+            genPass.extend(chr(random.randint(65, 90)))
+        elif randomNumber == 1:
+            genPass.extend(chr(random.randint(97, 122)))
         elif randomNumber == 2:
-            genPass.extend(chars[2][random.randint(0,9)])
+            genPass.extend(chr(random.randint(48, 57)))
         else:
-            genPass.extend(chars[3][random.randint(0,6)])
+            genPass.extend(chr(random.randint(33, 47)))
 
     # Shuffling the characters
 
@@ -51,6 +47,5 @@ while True:
             break
     except ValueError:
         print('Please enter only integers.')
-
 
 print('Your unique password is: ' + passGen(passCount))
