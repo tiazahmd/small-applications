@@ -1,7 +1,5 @@
 #! /usr/bin/python3.6
 
-import sys
-
 # Morse code: https://morsecode.scphillips.com/morse2.html
 
 morseDict = {'A':'.- ', 'B':'-... ', 'C':'-.-. ', 'D':'-.. ',
@@ -35,7 +33,7 @@ def userChoice():
         morseString = input("Enter Morse Code String: ")
         morseToEnglish(morseString)
     elif choice == "3":
-        sys.exit()
+        return False
     else:
         print("Please choose either 1, 2 or 3.\n")
 
@@ -59,4 +57,5 @@ def morseToEnglish(morseString):
     print("\n" + finalEnglish + "\n")
 
 while True:
-    userChoice()
+    if userChoice() == False:
+        break
