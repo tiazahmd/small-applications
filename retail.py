@@ -1,5 +1,6 @@
-productId = 0
-productDB = {}
+#! /usr/bin/python3.6
+
+import shelve
 
 class Product():
     def __init__(self, name, size, weight, price):
@@ -15,34 +16,77 @@ class Product():
         print("Price: $" + str(self.price))
         print("\n")
 
-def createProduct():
+def createProduct(productId):
     productName = input("Enter name of product: ")
     productSize = input("Enter size of product in inches: ")
     productWeight = input("Enter weight of product in lbs: ")
     productPrice = input("Enter price of the product in $: ")
-    global productId
+
+    productObj = Product(productName, productSize, productWeight, productPrice)
     productId += 1
-    newProd = {str(productId) : {'name' : productName, 'size' : productSize,
-                            'weight' : productWeight, 'price' : productPrice}}
-    return newProd
-                            
+    newDictItem = {str(productId) : productObj}
+    
+    return newDictItem
+
+def viewAllItems(dictionary):
+    for values in dictionary.keys():
+        tempObj = dictionary[values]
+        print("\nProduct ID: " + values)
+        print("Product Name: " + tempObj.name)
+        print("Product Size: " + str(tempObj.size))
+        print("Product Weight: " + str(tempObj.weight))
+        print("Product Price: " + str(tempObj.price) + "\n")
+
+def storeInDB(dictionary):
+    shelfFile = shelve.open('database')
+    shelfFile['db'] = dictionary
+    shelfFile.close()
+
+def retrieveDB():
+    shelfFile = shelve.open('database')
+    productDB = shelfFile['db']
+    shelfFile.close()
+    return productDB
+
+def getProductId(dictionary):
+    productId = len(dictionary)
+    return productId
+
+def deleteItem(deleteChoice):
+    shelfFile = shelve.open('database')
+    productDB = shelfFile['db']
+    if deleteChoice in productDB.keys():
+        del productDB[deleteChoice]
+        print("Product Deleted")
+    else:
+        print("Product ID does not exist")
+    shelfFile['db'] = productDB
+    shelfFile.close()
+
 while True:
     print("Retail Platform")
     print("1. Create a new product")
-    print("2. Update Product")
-    print("3. Delete Product")
-    print("4. Exit")
+    print("2. View all products")
+    print("3. Update Product")
+    print("4. Delete Product")
+    print("5. Exit")
     choice = input("Enter choice: ")
-    
+
     if choice == "1":
-        productDB.update(createProduct())
+        productDB = retrieveDB()
+        productId = getProductId(productDB)
+        productDB.update(createProduct(productId))
+        storeInDB(productDB)
         print("New product created.\n")
-        break
     elif choice == "2":
-        pass
+        productDB = retrieveDB()
+        viewAllItems(productDB)
     elif choice == "3":
         pass
     elif choice == "4":
+        deleteChoice = input("Enter Product Id to delete: ")
+        deleteItem(deleteChoice)
+    elif choice == "5":
         break
     else:
         print("Please choose a number between 1 and 4")
