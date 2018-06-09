@@ -63,6 +63,45 @@ def deleteItem(deleteChoice):
     shelfFile['db'] = productDB
     shelfFile.close()
 
+def changeSize(productID, newSize):
+    db = retrieveDB()
+    db[productID].size = newSize
+    storeInDB(db)
+
+def changeWeight(productID, newWeight):
+    db = retrieveDB()
+    db[productID].size = newWeight
+    storeInDB(db)
+
+def changePrice(productID, newPrice):
+    db = retrieveDB()
+    db[productID].size = newPrice
+    storeInDB(db)
+
+def updateProduct():
+    while True:
+        pID = input("Enter product ID: ")
+        print("What do you want to update?")
+        print("1. Size\n2. Weight\n3. Price")
+        updateChoice = input("Enter choice: ")
+        if updateChoice == "1":
+            newSize = input("Enter new size: ")
+            changeSize(pID, newSize)
+            print("Product Updated.")
+            break
+        elif updateChoice == "2":
+            newWeight = input("Enter new weight: ")
+            changeWeight(pID, newWeight)
+            print("Product Updated.")
+            break
+        elif updateChoice == "3":
+            newPrice = input("Enter new price: ")
+            changePrice(pID, newPrice)
+            print("Product Updated.")
+            break
+        else:
+            print("Pleae only enter 1, 2 or 3")
+
 while True:
     print("Retail Platform")
     print("1. Create a new product")
@@ -82,7 +121,7 @@ while True:
         productDB = retrieveDB()
         viewAllItems(productDB)
     elif choice == "3":
-        pass
+        updateProduct()
     elif choice == "4":
         deleteChoice = input("Enter Product Id to delete: ")
         deleteItem(deleteChoice)
