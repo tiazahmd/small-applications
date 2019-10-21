@@ -4,8 +4,8 @@ from twilio.rest import Client
 import string, random
 
 # Twilio authentications
-accountSID = "AC7880acefc53bf11780991a3193dab825"
-authToken = "0e0e82f772358ae6cea3fff1fd928b5b"
+accountSID = "<insert account SID here>"
+authToken = "<insert auth token here>"
 twilioClient = Client(accountSID, authToken)
 
 def checkUser(username, password):
